@@ -1,0 +1,14 @@
+{
+  "realm": "todorealm",
+  "auth-server-url": "http://localhost:8080/",
+  "ssl-required": "external",
+  "resource": "usersClient",
+  "verify-token-audience": false,
+  "credentials": {
+    "secret": "cjnOiRmr6unEqGnXMZl5WYUiUag6xYIT"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {
+    "credentials": {}
+  }
+}
