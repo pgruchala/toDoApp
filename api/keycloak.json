@@ -2,10 +2,10 @@
   "realm": "todorealm",
   "auth-server-url": "http://localhost:8080/",
   "ssl-required": "external",
-  "resource": "usersClient",
+  "resource": "todo-app-client",
   "verify-token-audience": false,
   "credentials": {
-    "secret": "cjnOiRmr6unEqGnXMZl5WYUiUag6xYIT"
+    "secret": "RKroTMaWV59ZND0eh8Saa6zdpnEBPkRh"
   },
   "confidential-port": 0,
   "policy-enforcer": {
