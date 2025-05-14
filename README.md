@@ -21,7 +21,7 @@ Użytkownicy dzielą się na standardowych i administratorów, którzy moga zarz
   |- Bcrypt
   |- JWT
   |- joi
-  |- keycloak-connect
+  |- keycloak-js
   |- prisma
   |- mongoose
 

@@ -1,9 +1,10 @@
 async function authMiddleware(req, res, next) {
   try {
-    // Token validation is handled by API Gateway with Keycloak
     const keycloakId = req.headers["x-user-id"];
     const email = req.headers["x-user-email"];
     const role = req.headers["x-user-role"];
+    console.log(keycloakId);
+    
 
     if (!keycloakId) {
       return res
@@ -16,9 +17,8 @@ async function authMiddleware(req, res, next) {
       email,
       role,
     };
-
     next();
-  } catch (error) {
+  } catch (error) {  
     next(error);
   }
 }

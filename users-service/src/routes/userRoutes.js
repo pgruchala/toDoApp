@@ -8,9 +8,9 @@ router.post("/", usersController.createUser);
 
 //zabezpieczone endpointy
 
-router.get("/:id", authMiddleware, usersController.getUserById);
-router.patch("/:id", authMiddleware, usersController.updateUser);
 router.get("/me", authMiddleware, usersController.getCurrentUser);
 router.patch("/me", authMiddleware, usersController.updateCurrentUser);
+router.get("/:id", authMiddleware, usersController.getUserById);
+router.patch("/:id", authMiddleware, usersController.updateUser);
 
 module.exports = router;

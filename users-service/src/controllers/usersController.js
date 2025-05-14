@@ -76,7 +76,8 @@ exports.updateUser = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (req.user.id !== id && req.user.role !== "admin") {// użytkownik może zaktualizować tylko swój profil
+    if (req.user.id !== id && req.user.role !== "admin") {
+      // użytkownik może zaktualizować tylko swój profil
       return res
         .status(403)
         .json({ message: "Forbidden - you can only update your own profile" });
