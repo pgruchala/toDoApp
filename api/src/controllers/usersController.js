@@ -36,7 +36,6 @@ exports.updateUser = async (req, res, next) => {
     const { firstName, lastName, avatarUrl } = req.body;
     const userInfo = req.kauth.grant.access_token.content;
 
-    // Forward request to users service
     const response = await axios.put(
       `${USERS_SERVICE_URL}/api/users/${id}`,
       { firstName, lastName, avatarUrl },
@@ -67,7 +66,6 @@ exports.getCurrentUser = async (req, res, next) => {
   try {
     const userInfo = req.kauth.grant.access_token.content;
 
-    // Forward request to users service
     const response = await axios.get(`${USERS_SERVICE_URL}/api/users/me`, {
       headers: {
         "x-user-id": userInfo.sub,
@@ -98,7 +96,6 @@ exports.updateCurrentUser = async (req, res, next) => {
     const { firstName, lastName, avatarUrl } = req.body;
     const userInfo = req.kauth.grant.access_token.content;
 
-    // Forward request to users service
     const response = await axios.put(
       `${USERS_SERVICE_URL}/api/users/me`,
       { firstName, lastName, avatarUrl },

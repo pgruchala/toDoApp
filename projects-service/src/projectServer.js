@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
-const taskRoutes = require("./routes/taskRoutes");
+const projectRoutes = require("./routes/projectRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT;
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-app.use("/api/tasks", taskRoutes);
+app.use("/api/projects", projectRoutes);
 
 app.use(errorHandler);
 
@@ -26,7 +26,7 @@ async function main() {
     await mongoose.connect(DB_URI);
     console.log("Connected to MongoDB");
     app.listen(PORT, () => {
-      console.log(`Task service is running on port ${PORT}`);
+      console.log(`Project service is running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
