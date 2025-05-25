@@ -10,7 +10,7 @@ router.get(
   keycloakProtect(),
   usersController.getUserById
 );
-router.put(
+router.patch(
   "/:id",
   userValidationRules.updateById,
   keycloakProtect(),
@@ -22,7 +22,7 @@ router.get(
   keycloakProtect(),
   usersController.getCurrentUser
 );
-router.put(
+router.patch(
   "/me",
   userValidationRules.updateCurrent,
   keycloakProtect(),
