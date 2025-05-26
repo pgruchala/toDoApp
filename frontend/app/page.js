@@ -1,45 +1,18 @@
 import Image from "next/image";
-
 export default function Home() {
   return (
-    <div>
-      <h1>hrllo wrld</h1>
-      <div className="join join-vertical">
-        <input
-          type="radio"
-          name="theme-buttons"
-          className="btn theme-controller join-item"
-          aria-label="Default"
-          value="default"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          className="btn theme-controller join-item"
-          aria-label="Retro"
-          value="retro"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          className="btn theme-controller join-item"
-          aria-label="Cyberpunk"
-          value="cyberpunk"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          className="btn theme-controller join-item"
-          aria-label="Valentine"
-          value="valentine"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          className="btn theme-controller join-item"
-          aria-label="Aqua"
-          value="aqua"
-        />
+    <div className="hero min-h-screen">
+      <div className="hero-content text-center">
+        <div className="max-w-md">
+          <h1 className="text-5xl font-bold">Welcome!</h1>
+          <p className="py-6">
+            AiO app which allows to manage your tasks and work on them with your
+            friends!
+          </p>
+          <a href="/login">
+            <button className="btn btn-primary">Get Started!</button>
+          </a>
+        </div>
       </div>
     </div>
   );

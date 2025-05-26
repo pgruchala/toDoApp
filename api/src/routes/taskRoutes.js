@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/tasksController");
-const { setUpKeycloak } = require("../config/keycloak");
+const { authenticateAndExtract } = require("../middleware/authMiddleware");
 const { taskValidationRules } = require("../middleware/validationMiddleware");
-const keycloak = setUpKeycloak();
 
-router.use(keycloak.protect());
+router.use(...authenticateAndExtract());
 
 router.post("/", taskValidationRules.create, taskController.createTask);
 router.get("/", taskValidationRules.getAll, taskController.getAllTasks);

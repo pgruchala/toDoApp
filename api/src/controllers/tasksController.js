@@ -1,6 +1,6 @@
 const axios = require("axios");
 require("dotenv").config();
-const TASK_SERVICE_URL = process.env.TASK_SERVICE_URL;
+const TASKS_SERVICE_URL = process.env.TASKS_SERVICE_URL;
 
 exports.createTask = async (req, res, next) => {
   try {
