@@ -19,16 +19,19 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-const sessionSecret =
-  process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
-console.log(sessionSecret);
 const memoryStore = new session.MemoryStore();
+
 app.use(
   session({
-    secret: sessionSecret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: memoryStore,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 godziny
+    },
   })
 );
 
@@ -39,6 +42,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/projects", projectRoutes);
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    keycloak: "connected",
+  });
+});
 
 app.use(errorHandler);
 

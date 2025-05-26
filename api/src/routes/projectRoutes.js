@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const projectController = require("../controllers/projectsController");
-const { setUpKeycloak } = require("../config/keycloak");
+const { authenticateAndExtract } = require("../middleware/authMiddleware");
 const {
   projectValidationRules,
 } = require("../middleware/validationMiddleware");
-const keycloak = setUpKeycloak();
 
-router.use(keycloak.protect());
+router.use(...authenticateAndExtract());
 
 router.post(
   "/",

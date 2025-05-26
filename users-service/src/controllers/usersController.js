@@ -163,9 +163,3 @@ exports.updateCurrentUser = async (req, res, next) => {
     next(error);
   }
 };
-
-// add todo (add todo id)??
-
-// remove todo (remove todo id)̣??
-
-// add project (project id)??
