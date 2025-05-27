@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       };
       Cookies.set("accessToken", accessToken, { expires: 1 });
       Cookies.set("refreshToken", refreshToken, { expires: 7 });
-      setUser(user);
+      setUser(userData);
       setIsAuthenticated(true);
       return { success: true, user: userData };
     } catch (error) {
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         ...response.data,
         roles: decodedToken.realm_access?.roles || ["user"],
       };
-
+      
       setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {

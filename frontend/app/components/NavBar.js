@@ -3,18 +3,31 @@ import { CircleCheckBig, FolderKanban, User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const { user, isAuthenticated, logout, isAdmin } = useAuth();
+  const [avatar,setAvatar] = useState(null)
+
+  useEffect(() => {
+    if (user && user.avatarUrl) { 
+      setAvatar(user.avatarUrl);
+    } else {
+      setAvatar(null);
+    }
+  }, [user])
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">ToDo App</a>
+        <Link className="btn btn-ghost text-xl" href={`/`}>
+          ToDo App
+        </Link>
       </div>
       <div className="flex gap-2">
         {isAuthenticated && (
           <>
-            <Link href={`/todos`}>
+            <Link href={`/tasks`}>
               <CircleCheckBig />
             </Link>
             <Link href={`/projects`}>
@@ -32,7 +45,11 @@ export default function NavBar() {
               {user ? (
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src={`https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.redd.it%2Fyw4bwkfqk9t71.jpg&f=1&nofb=1&ipt=b3cc8ad550d697106e0fe8d5189bc38e8c695254e13c4b095ccf8ff45c24acf3`}
+                  src={
+                    avatar !== null
+                      ? avatar
+                      : `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.redd.it%2Fyw4bwkfqk9t71.jpg&f=1&nofb=1&ipt=b3cc8ad550d697106e0fe8d5189bc38e8c695254e13c4b095ccf8ff45c24acf3`
+                  }
                 />
               ) : (
                 <User />
@@ -46,11 +63,13 @@ export default function NavBar() {
             {isAuthenticated ? (
               <>
                 <li>
-                  <a className="justify-between">Profile</a>
+                  <Link className="justify-between" href={"/dashboard"}>
+                    Profile
+                  </Link>
                 </li>
                 {isAdmin() && (
                   <li>
-                    <a>Dashboard</a>
+                    <Link href={`/adminDashboard`}>Dashboard</Link>
                   </li>
                 )}
                 <li>

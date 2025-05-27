@@ -35,7 +35,7 @@ exports.createTask = async (req, res, next) => {
 };
 exports.getAllTasks = async (req, res, next) => {
   try {
-    const { userId } = req.user;
+    const { email, userId } = req.user;
     const {
       projectId,
       status,
@@ -44,7 +44,7 @@ exports.getAllTasks = async (req, res, next) => {
       page = 1,
       limit = 10,
     } = req.query;
-    const query = { userId };
+    const query = { $or: [{ userId }, { assignedTo: email }] };
     if (projectId) {
       query.projectId = projectId;
     }
@@ -92,7 +92,7 @@ exports.updateTask = async (req, res, next) => {
       projectId,
       assignedTo,
     } = req.body;
-    const { userId } = req.user;
+    const { userId, email } = req.user;
     const task = await Task.findById(id);
     if (!task) {
       return res.status(404).json({
@@ -100,7 +100,10 @@ exports.updateTask = async (req, res, next) => {
         message: "Task not found",
       });
     }
-    if (task.userId.toString() !== userId) {
+    const isOwner = task.userId.toString() === userId;
+    const isAssignedTo = task.assignedTo === email;
+
+    if (!isOwner && !isAssignedTo) {
       return res.status(403).json({
         success: false,
         message: "You are not authorized to update this task",

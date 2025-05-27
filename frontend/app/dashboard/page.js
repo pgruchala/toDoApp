@@ -21,7 +21,6 @@ export default function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      // Fetch tasks and projects
       const [tasksResponse, projectsResponse] = await Promise.all([
         apiClient.get("/tasks"),
         apiClient.get("/projects"),
@@ -31,7 +30,6 @@ export default function Dashboard() {
       const projects =
         projectsResponse.data.projects || projectsResponse.data || [];
 
-      // Calculate stats
       const completedTasks = tasks.filter(
         (task) => task.status === "completed"
       ).length;
@@ -46,7 +44,6 @@ export default function Dashboard() {
         totalProjects: projects.length,
       });
 
-      // Set recent tasks (last 5)
       const sortedTasks = tasks.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );

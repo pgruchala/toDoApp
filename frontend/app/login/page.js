@@ -58,33 +58,42 @@ export default function LoginPage() {
               <label htmlFor="email" className="sr-only">
                 Email address
               </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div>
+                <input
+                  className="input validator appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  type="email"
+                  required
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <div className="validator-hint">Enter valid email address</div>
+              </div>
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div>
+                <input
+                  type="password"
+                  className="input validator appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-white rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                  placeholder="Password"
+                  minLength="6"
+                  onChange={(e) => setPassword(e.target.value)}
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                  title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                />
+                <p className="validator-hint">
+                  Must be more than 8 characters, including
+                  <br />
+                  At least one number
+                  <br />
+                  At least one lowercase letter
+                  <br />
+                  At least one uppercase letter
+                </p>
+              </div>
             </div>
           </div>
 

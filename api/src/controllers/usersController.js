@@ -1,7 +1,12 @@
 const axios = require("axios");
+const qs = require("qs");
 require("dotenv").config();
 
 const USERS_SERVICE_URL = process.env.USERS_SERVICE_URL;
+const KEYCLOAK_AUTH_SERVER_URL = process.env.KEYCLOAK_AUTH_SERVER_URL;
+const KEYCLOAK_REALM = process.env.KEYCLOAK_REALM;
+const KEYCLOAK_CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID;
+const KEYCLOAK_CLIENT_SECRET = process.env.KEYCLOAK_CLIENT_SECRET;
 
 exports.getUserById = async (req, res, next) => {
   try {
@@ -36,7 +41,7 @@ exports.updateUser = async (req, res, next) => {
     const { firstName, lastName, avatarUrl } = req.body;
     const userInfo = req.kauth.grant.access_token.content;
 
-    const response = await axios.put(
+    const response = await axios.patch(
       `${USERS_SERVICE_URL}/api/users/${id}`,
       { firstName, lastName, avatarUrl },
       {
@@ -96,7 +101,7 @@ exports.updateCurrentUser = async (req, res, next) => {
     const { firstName, lastName, avatarUrl } = req.body;
     const userInfo = req.kauth.grant.access_token.content;
 
-    const response = await axios.put(
+    const response = await axios.patch(
       `${USERS_SERVICE_URL}/api/users/me`,
       { firstName, lastName, avatarUrl },
       {
@@ -124,3 +129,4 @@ exports.updateCurrentUser = async (req, res, next) => {
     next(error);
   }
 };
+

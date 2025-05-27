@@ -4,24 +4,26 @@ const TASKS_SERVICE_URL = process.env.TASKS_SERVICE_URL;
 
 exports.createTask = async (req, res, next) => {
   try {
-    const userInfo = req.kauth.grant.access_token.content;
-    const taskData = req.body;
+    console.log("Creating task - User info:", req.user);
+    console.log("Task data:", req.body);
+    
     const taskResponse = await axios.post(
       `${TASKS_SERVICE_URL}/api/tasks`,
-      taskData,
+      req.body,
       {
         headers: {
-          "x-user-id": userInfo.sub,
-          "x-user-email": userInfo.email,
-          "x-user-role": userInfo.realm_access?.roles?.includes("admin")
-            ? "admin"
-            : "user",
+          "x-user-id": req.user.userId,
+          "x-user-email": req.user.email,
+          "x-user-role": Array.isArray(req.user.role) ? req.user.role.join(',') : req.user.role,
+          "Content-Type": "application/json"
         },
       }
     );
-
+    
+    console.log("Task created successfully");
     res.status(201).json(taskResponse.data);
   } catch (error) {
+    console.error("Error creating task:", error.response?.data || error.message);
     next(error);
   }
 };
@@ -75,7 +77,7 @@ exports.updateTask = async (req, res, next) => {
     const userInfo = req.kauth.grant.access_token.content;
     const { id } = req.params;
     const taskData = req.body;
-    const taskResponse = await axios.put(
+    const taskResponse = await axios.patch(
       `${TASKS_SERVICE_URL}/api/tasks/${id}`,
       taskData,
       {

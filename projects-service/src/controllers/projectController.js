@@ -23,8 +23,11 @@ exports.createProject = async (req, res, next) => {
 exports.getProjectById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { userId } = req.user;
-    const project = await Project.findOne({ _id: id, userId });
+    const { email, userId } = req.user;
+    const project = await Project.findOne({
+      _id: id,
+      $or: [{ userId }, { members: email }],
+    });
     if (!project) {
       return res.status(404).json({
         success: false,
@@ -41,8 +44,10 @@ exports.getProjectById = async (req, res, next) => {
 };
 exports.getAllProjects = async (req, res, next) => {
   try {
-    const { userId } = req.user;
-    const projects = await Project.find({ userId });
+    const { email, userId } = req.user;
+    const projects = await Project.find({
+      $or: [{ userId }, { members: email }],
+    });
     if (!projects) {
       return res.status(404).json({
         success: false,
@@ -62,7 +67,13 @@ exports.updateProject = async (req, res, next) => {
     const { id } = req.params;
     const { name, description, members, tasks } = req.body;
     const { userId } = req.user;
-    const project = await Project.findOne({ _id: id, userId });
+    const project = await Project.findOne({ 
+      _id: id, 
+      $or: [
+        { userId },
+        { members: email }
+      ]
+    });
     if (!project) {
       return res.status(404).json({
         success: false,

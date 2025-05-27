@@ -10,6 +10,6 @@ router.post("/", taskValidationRules.create, taskController.createTask);
 router.get("/", taskValidationRules.getAll, taskController.getAllTasks);
 router.get("/:id", taskValidationRules.getById, taskController.getTaskById);
 router.patch("/:id", taskValidationRules.update, taskController.updateTask);
-router.delete("/:id", taskValidationRules.create, taskController.deleteTask);
+router.delete("/:id", taskValidationRules.delete, taskController.deleteTask);
 
 module.exports = router;

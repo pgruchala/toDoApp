@@ -51,6 +51,20 @@ const authValidationRules = {
   getProfile: [],
 };
 const userValidationRules = {
+  changePassword: [
+    body("currentPassword")
+      .notEmpty()
+      .withMessage("Current password is required"),
+    body("newPassword")
+      .notEmpty()
+      .isLength({ min: 6 })
+      .withMessage("New password must be at least 8 characters long"),
+    validateRequest,
+  ],
+  adminActions: [
+    body("email").notEmpty().isEmail().withMessage("Valid email is required"),
+    validateRequest,
+  ],
   getById: [param("id"), validateRequest],
   updateById: [
     param("id").notEmpty().withMessage("Invalid user ID"),
@@ -117,11 +131,7 @@ const taskValidationRules = {
       .trim()
       .isMongoId()
       .withMessage("Project ID must be a valid MongoDB ObjectId"),
-    body("assignedTo")
-      .optional()
-      .trim()
-      .isMongoId()
-      .withMessage("Assigned to must be a valid MongoDB ObjectId"),
+    body("assignedTo").optional().trim(),
     validateRequest,
   ],
   update: [
@@ -158,11 +168,7 @@ const taskValidationRules = {
       .trim()
       .isMongoId()
       .withMessage("Project ID must be a valid MongoDB ObjectId"),
-    body("assignedTo")
-      .optional()
-      .trim()
-      .isMongoId()
-      .withMessage("Assigned to must be a valid MongoDB ObjectId"),
+    body("assignedTo").optional().trim(),
     validateRequest,
   ],
   delete: [
