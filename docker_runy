@@ -1,0 +1,3 @@
+docker run --name postgres --env=POSTGRES_USER=user --env=POSTGRES_DB=todo_users --env=POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+docker run -d -p 27017:27017 --name todo-mongo mongo:latest
+docker run -d -p 27018:27017 --name project-mongo mongo:latest

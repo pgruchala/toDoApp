@@ -19,11 +19,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
 
-  const isAdmin = () => {
-    if (!user || !user.roles) return false;
-    return user.roles.includes("admin");
+  const checkIsAdmin = (userData) => {
+    if (!userData || !userData.roles) return false;
+    return userData.roles.includes("admin");
   };
 
   const login = async (email, password) => {
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       Cookies.set("refreshToken", refreshToken, { expires: 7 });
       setUser(userData);
       setIsAuthenticated(true);
+      setIsAdmin(checkIsAdmin(userData))
       return { success: true, user: userData };
     } catch (error) {
       console.error("login error", error);
@@ -77,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       Cookies.remove("refreshToken");
       setUser(null);
       setIsAuthenticated(false);
+      setIsAdmin(false)
       router.push("/login");
     }
   };
@@ -105,6 +108,7 @@ export const AuthProvider = ({ children }) => {
       
       setUser(userData);
       setIsAuthenticated(true);
+      setIsAdmin(checkIsAdmin(userData))
     } catch (error) {
       console.error("Auth check error:", error);
       Cookies.remove("accessToken");

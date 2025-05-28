@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
         return;
       }
 
-      if (adminOnly && !isAdmin()) {
+      if (adminOnly && !isAdmin) {
         router.push("/dashboard");
         return;
       }
@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   if (!isAuthenticated) {
     return null;
   }
-  if (adminOnly && !isAdmin()) {
+  if (adminOnly && !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

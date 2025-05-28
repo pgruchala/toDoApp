@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const projectRoutes = require("./routes/projectRoutes");
+const statsRoutes = require("./routes/statsRoutes")
 const { setUpKeycloak } = require("./config/keycloak");
 
 const PORT = process.env.PORT;
@@ -47,6 +48,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/stats",statsRoutes)
 
 app.get("/health", (req, res) => {
   res.status(200).json({

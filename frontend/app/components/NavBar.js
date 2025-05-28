@@ -7,15 +7,15 @@ import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const { user, isAuthenticated, logout, isAdmin } = useAuth();
-  const [avatar,setAvatar] = useState(null)
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    if (user && user.avatarUrl) { 
+    if (user && user.avatarUrl) {
       setAvatar(user.avatarUrl);
     } else {
       setAvatar(null);
     }
-  }, [user])
+  }, [user]);
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -67,11 +67,11 @@ export default function NavBar() {
                     Profile
                   </Link>
                 </li>
-                {isAdmin() && (
-                  <li>
-                    <Link href={`/adminDashboard`}>Dashboard</Link>
-                  </li>
-                )}
+
+                <li>
+                  <Link href={`/dashboard`}>Dashboard</Link>
+                </li>
+
                 <li>
                   <button onClick={logout}>Logout</button>
                 </li>
