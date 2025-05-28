@@ -5,7 +5,7 @@
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
-  "accessTokenLifespan": 1800,
+  "accessTokenLifespan": 900,
   "accessTokenLifespanForImplicitFlow": 900,
   "ssoSessionIdleTimeout": 1800,
   "ssoSessionMaxLifespan": 36000,
@@ -53,15 +53,9 @@
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
-          "realm": [
-            "offline_access",
-            "uma_authorization"
-          ],
+          "realm": ["offline_access", "uma_authorization"],
           "client": {
-            "account": [
-              "manage-account",
-              "view-profile"
-            ]
+            "account": ["manage-account", "view-profile"]
           }
         },
         "clientRole": false,
@@ -159,9 +153,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "realm-management": [
-                "query-clients"
-              ]
+              "realm-management": ["query-clients"]
             }
           },
           "clientRole": true,
@@ -262,10 +254,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "realm-management": [
-                "query-groups",
-                "query-users"
-              ]
+              "realm-management": ["query-groups", "query-users"]
             }
           },
           "clientRole": true,
@@ -360,9 +349,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "account": [
-                "manage-account-links"
-              ]
+              "account": ["manage-account-links"]
             }
           },
           "clientRole": true,
@@ -376,9 +363,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "account": [
-                "view-consent"
-              ]
+              "account": ["view-consent"]
             }
           },
           "clientRole": true,
@@ -443,9 +428,7 @@
     "clientRole": false,
     "containerId": "4f6515b0-7490-4924-b187-8a4e62f38b19"
   },
-  "requiredCredentials": [
-    "password"
-  ],
+  "requiredCredentials": ["password"],
   "otpPolicyType": "totp",
   "otpPolicyAlgorithm": "HmacSHA1",
   "otpPolicyInitialCounter": 0,
@@ -460,10 +443,7 @@
   ],
   "localizationTexts": {},
   "webAuthnPolicyRpEntityName": "keycloak",
-  "webAuthnPolicySignatureAlgorithms": [
-    "ES256",
-    "RS256"
-  ],
+  "webAuthnPolicySignatureAlgorithms": ["ES256", "RS256"],
   "webAuthnPolicyRpId": "",
   "webAuthnPolicyAttestationConveyancePreference": "not specified",
   "webAuthnPolicyAuthenticatorAttachment": "not specified",
@@ -474,10 +454,7 @@
   "webAuthnPolicyAcceptableAaguids": [],
   "webAuthnPolicyExtraOrigins": [],
   "webAuthnPolicyPasswordlessRpEntityName": "keycloak",
-  "webAuthnPolicyPasswordlessSignatureAlgorithms": [
-    "ES256",
-    "RS256"
-  ],
+  "webAuthnPolicyPasswordlessSignatureAlgorithms": ["ES256", "RS256"],
   "webAuthnPolicyPasswordlessRpId": "",
   "webAuthnPolicyPasswordlessAttestationConveyancePreference": "not specified",
   "webAuthnPolicyPasswordlessAuthenticatorAttachment": "not specified",
@@ -498,9 +475,7 @@
       "serviceAccountClientId": "todo-app-client",
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": [
-        "default-roles-todorealm"
-      ],
+      "realmRoles": ["default-roles-todorealm"],
       "clientRoles": {
         "realm-management": [
           "manage-users",
@@ -508,9 +483,7 @@
           "query-users",
           "create-client"
         ],
-        "todo-app-client": [
-          "uma_protection"
-        ]
+        "todo-app-client": ["uma_protection"]
       },
       "notBefore": 0,
       "groups": []
@@ -525,13 +498,9 @@
       "serviceAccountClientId": "users-service",
       "disableableCredentialTypes": [],
       "requiredActions": [],
-      "realmRoles": [
-        "default-roles-todorealm"
-      ],
+      "realmRoles": ["default-roles-todorealm"],
       "clientRoles": {
-        "users-service": [
-          "uma_protection"
-        ]
+        "users-service": ["uma_protection"]
       },
       "notBefore": 0,
       "groups": []
@@ -540,19 +509,14 @@
   "scopeMappings": [
     {
       "clientScope": "offline_access",
-      "roles": [
-        "offline_access"
-      ]
+      "roles": ["offline_access"]
     }
   ],
   "clientScopeMappings": {
     "account": [
       {
         "client": "account-console",
-        "roles": [
-          "manage-account",
-          "view-groups"
-        ]
+        "roles": ["manage-account", "view-groups"]
       }
     ]
   },
@@ -567,9 +531,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/realms/todorealm/account/*"
-      ],
+      "redirectUris": ["/realms/todorealm/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -614,9 +576,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/realms/todorealm/account/*"
-      ],
+      "redirectUris": ["/realms/todorealm/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -759,14 +719,8 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "",
-        "http://localhost:3000/*"
-      ],
-      "webOrigins": [
-        "",
-        "http://localhost:3000"
-      ],
+      "redirectUris": ["", "http://localhost:3000/*"],
+      "webOrigins": ["", "http://localhost:3000"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -855,12 +809,8 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/admin/todorealm/console/*"
-      ],
-      "webOrigins": [
-        "+"
-      ],
+      "redirectUris": ["/admin/todorealm/console/*"],
+      "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -933,11 +883,7 @@
         "https://oauth.pstmn.io/v1/vscode-callback",
         "https://oauth.pstmn.io/v1/callback"
       ],
-      "webOrigins": [
-        "",
-        "https://oauth.pstmn.io",
-        "http://localhost:3001"
-      ],
+      "webOrigins": ["https://oauth.pstmn.io", "http://localhost:3001"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -950,28 +896,14 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
-        "client.secret.creation.time": "1746622158",
-        "request.object.signature.alg": "any",
-        "request.object.encryption.alg": "any",
-        "client.introspection.response.allow.jwt.claim.enabled": "false",
-        "frontchannel.logout.session.required": "true",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "use.jwks.url": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "use.refresh.tokens": "true",
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
-        "client.use.lightweight.access.token.enabled": "false",
+        "client.secret.creation.time": "1746622158",
         "backchannel.logout.session.required": "true",
-        "request.object.required": "not required",
-        "client_credentials.use_refresh_token": "false",
-        "tls.client.certificate.bound.access.tokens": "false",
-        "require.pushed.authorization.requests": "false",
-        "acr.loa.map": "{}",
+        "frontchannel.logout.session.required": "true",
+        "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
-        "request.object.encryption.enc": "any",
-        "pkce.code.challenge.method": "S256",
-        "token.response.type.bearer.lower-case": "false"
+        "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
@@ -1012,11 +944,7 @@
         "https://oauth.pstmn.io/v1/vscode-callback",
         "https://oauth.pstmn.io/v1/callback"
       ],
-      "webOrigins": [
-        "",
-        "https://oauth.pstmn.io",
-        "http://localhost:3001"
-      ],
+      "webOrigins": ["", "https://oauth.pstmn.io", "http://localhost:3001"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -1057,6 +985,7 @@
         "organization",
         "microprofile-jwt"
       ]
+      
     }
   ],
   "clientScopes": [
@@ -1768,9 +1697,7 @@
   },
   "smtpServer": {},
   "eventsEnabled": false,
-  "eventsListeners": [
-    "jboss-logging"
-  ],
+  "eventsListeners": ["jboss-logging"],
   "enabledEventTypes": [],
   "adminEventsEnabled": false,
   "adminEventsDetailsEnabled": false,
@@ -1793,12 +1720,8 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "host-sending-registration-request-must-match": [
-            "true"
-          ],
-          "client-uris-must-match": [
-            "true"
-          ]
+          "host-sending-registration-request-must-match": ["true"],
+          "client-uris-must-match": ["true"]
         }
       },
       {
@@ -1808,9 +1731,7 @@
         "subType": "authenticated",
         "subComponents": {},
         "config": {
-          "allow-default-scopes": [
-            "true"
-          ]
+          "allow-default-scopes": ["true"]
         }
       },
       {
@@ -1828,9 +1749,7 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "max-clients": [
-            "200"
-          ]
+          "max-clients": ["200"]
         }
       },
       {
@@ -1878,9 +1797,7 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "allow-default-scopes": [
-            "true"
-          ]
+          "allow-default-scopes": ["true"]
         }
       }
     ],
@@ -1891,12 +1808,8 @@
         "providerId": "hmac-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "HS512"
-          ]
+          "priority": ["100"],
+          "algorithm": ["HS512"]
         }
       },
       {
@@ -1905,9 +1818,7 @@
         "providerId": "rsa-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ]
+          "priority": ["100"]
         }
       },
       {
@@ -1916,9 +1827,7 @@
         "providerId": "aes-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ]
+          "priority": ["100"]
         }
       },
       {
@@ -1927,12 +1836,8 @@
         "providerId": "rsa-enc-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "RSA-OAEP"
-          ]
+          "priority": ["100"],
+          "algorithm": ["RSA-OAEP"]
         }
       }
     ]
