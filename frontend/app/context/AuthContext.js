@@ -12,7 +12,7 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth musi być użyty z authContext");
   }
-  return context
+  return context;
 };
 
 export const AuthProvider = ({ children }) => {
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       Cookies.set("refreshToken", refreshToken, { expires: 7 });
       setUser(userData);
       setIsAuthenticated(true);
-      setIsAdmin(checkIsAdmin(userData))
+      setIsAdmin(checkIsAdmin(userData));
       return { success: true, user: userData };
     } catch (error) {
       console.error("login error", error);
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
       Cookies.remove("refreshToken");
       setUser(null);
       setIsAuthenticated(false);
-      setIsAdmin(false)
+      setIsAdmin(false);
       router.push("/login");
     }
   };
@@ -105,10 +105,10 @@ export const AuthProvider = ({ children }) => {
         ...response.data,
         roles: decodedToken.realm_access?.roles || ["user"],
       };
-      
+
       setUser(userData);
       setIsAuthenticated(true);
-      setIsAdmin(checkIsAdmin(userData))
+      setIsAdmin(checkIsAdmin(userData));
     } catch (error) {
       console.error("Auth check error:", error);
       Cookies.remove("accessToken");

@@ -1,0 +1,220 @@
+version: '3.8'
+
+networks:
+  todo-network:
+    driver: bridge
+
+volumes:
+  tasks-data:
+  projects-data:
+  users-data:
+  keycloak-data:
+  keycloak-db-data:
+
+secrets:
+  pg_pass:
+    file: ./secrets/pg_pass.txt
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:3001/api"
+    networks:
+      - todo-network
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+  api-gateway:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:3001:3001"
+    environment:
+      PORT: 3001
+      USERS_SERVICE_URL: "http://users-service:3002"
+      TASKS_SERVICE_URL: "http://tasks-service:3003"
+      PROJECT_SERVICE_URL: "http://projects-service:3004"
+      KEYCLOAK_REALM: todorealm
+      KEYCLOAK_AUTH_SERVER_URL: "http://keycloak:8080"
+      KEYCLOAK_PUBLIC_URL: "http://localhost:8080"
+      KEYCLOAK_CLIENT_ID: todo-app-client
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      KEYCLOAK_ADMIN_LOGIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET}
+    networks:
+      - todo-network
+    depends_on:
+      keycloak:
+        condition: service_started
+      users-service:
+        condition: service_healthy
+      tasks-service:
+        condition: service_healthy
+      projects-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  tasks-service:
+    build: 
+      context: ./tasks-service
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      DB_URI: mongodb://tasks-db:27017/todo-tasks
+    networks:
+      - todo-network
+    depends_on:
+      tasks-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  projects-service:
+    build: 
+      context: ./projects-service
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: 3004
+      DB_URI: mongodb://projects-db:27017/todo-projects
+    networks:
+      - todo-network
+    depends_on:
+      projects-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  users-service:
+    build: 
+      context: ./users-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      DATABASE_URL: "postgresql://postgres:$POSTGRES_PASSWORD@users-db:5432/todo_users?schema=public"
+      KEYCLOAK_SERVER_URL: "http://keycloak:8080/auth"
+      KEYCLOAK_REALM: todorealm
+      KEYCLOAK_CLIENT_ID: users-service
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_SERVICE_SECRET}
+    networks:
+      - todo-network
+    depends_on:
+      users-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.4
+    command: start --import-realm
+    ports:
+      - "8080:8080"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+      KC_DB_SCHEMA: public
+      KC_DB_URL_DATABASE: keycloak
+      KC_HOSTNAME: localhost
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY: edge
+      KC_METRICS_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
+      KC_LOG_LEVEL: INFO
+      KC_FEATURES: token-exchange
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_FEATURES: token-exchange, script
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./auth-service/config/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    networks:
+      - todo-network
+
+  tasks-db:
+    image: mongo:7.0
+    volumes:
+      - tasks-data:/data/db
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  projects-db:
+    image: mongo:7.0
+    volumes:
+      - projects-data:/data/db
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  users-db:
+    image: postgres:15-alpine
+    volumes:
+      - users-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: todo_users
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  keycloak-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

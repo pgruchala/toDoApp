@@ -14,6 +14,13 @@ app.use(cors());
 app.use(morgan("dev"));
 
 app.use("/api/projects", projectRoutes);
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    keycloak: "connected",
+  });
+});
 
 app.use(errorHandler);
 

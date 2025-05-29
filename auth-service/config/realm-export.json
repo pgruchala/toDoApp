@@ -926,17 +926,19 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "RKroTMaWV59ZND0eh8Saa6zdpnEBPkRh",
       "redirectUris": [
         "",
         "http://localhost:3001/*",
         "https://oauth.pstmn.io/v1/vscode-callback",
-        "https://oauth.pstmn.io/v1/callback"
+        "https://oauth.pstmn.io/v1/callback",
+        "http://localhost:3000/*"
       ],
       "webOrigins": [
         "",
         "https://oauth.pstmn.io",
-        "http://localhost:3001"
+        "http://localhost:3001",
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
