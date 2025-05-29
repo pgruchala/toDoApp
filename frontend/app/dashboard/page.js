@@ -25,16 +25,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchDashboardData();
-  }, [isLoading, isAdmin]);
+  }, []);
 
   const fetchDashboardData = async () => {
     try {
       setIsLoading(true);
       setError(null);
-
+  
       const userStatsResponse = await apiClient.get("/stats/user");
       setUserStats(userStatsResponse.data.userStats);
-
+  
       if (isAdmin) {
         try {
           const serviceStatsResponse = await apiClient.get("/stats/service");
@@ -44,7 +44,7 @@ export default function Dashboard() {
           console.error("Error fetching service stats:", adminError);
         }
       }
-
+  
       try {
         const tasksResponse = await apiClient.get("/tasks");
         const tasks = tasksResponse.data.tasks || tasksResponse.data || [];
@@ -62,6 +62,7 @@ export default function Dashboard() {
       setIsLoading(false);
     }
   };
+  
 
   const getStatusBadge = (status) => {
     const badges = {

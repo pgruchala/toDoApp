@@ -936,6 +936,7 @@
       ],
       "webOrigins": [
         "",
+        "http://localhost:3000",
         "https://oauth.pstmn.io",
         "http://localhost:3001",
         "*"
