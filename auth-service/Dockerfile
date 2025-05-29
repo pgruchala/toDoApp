@@ -6,4 +6,4 @@ COPY ./config/realm-export.json /opt/keycloak/data/import/realm.json
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
-CMD ["start-dev", "--hostname=localhost", "--import-realm", "--features=script-upload"]
+CMD ["start-dev", "--hostname=localhost", "--import-realm", "--features=script"]

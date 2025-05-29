@@ -930,15 +930,10 @@
       "redirectUris": [
         "",
         "http://localhost:3001/*",
-        "https://oauth.pstmn.io/v1/vscode-callback",
-        "https://oauth.pstmn.io/v1/callback",
-        "http://localhost:3000/*"
+        "*"
       ],
       "webOrigins": [
         "",
-        "http://localhost:3000",
-        "https://oauth.pstmn.io",
-        "http://localhost:3001",
         "*"
       ],
       "notBefore": 0,
