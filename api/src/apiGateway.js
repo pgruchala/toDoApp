@@ -21,7 +21,8 @@ app.use(
     origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Origin"],
+    
   })
 );
 app.use(express.json());
@@ -36,9 +37,9 @@ app.use(
     saveUninitialized: true,
     store: memoryStore,
     cookie: {
-      secure: false, // Dla HTTP w rozwoju
+      secure: false,
       httpOnly: true,
-      sameSite: "lax", // Ważne dla cross-origin
+      sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
@@ -46,7 +47,6 @@ app.use(
 
 const keycloak = setUpKeycloak();
 app.use(keycloak.middleware());
-
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);

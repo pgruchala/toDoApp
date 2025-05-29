@@ -26,21 +26,21 @@ services:
       NEXT_PUBLIC_API_BASE_URL: "http://localhost:3001/api"
     networks:
       - todo-network
-    depends_on:
-      api-gateway:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 15s
-      retries: 3
+    # depends_on:
+    #   api-gateway:
+    #     condition: service_healthy
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000"]
+    #   interval: 30s
+    #   timeout: 15s
+    #   retries: 3
 
   api-gateway:
     build: 
       context: ./api
       dockerfile: Dockerfile
     ports:
-      - "127.0.0.1:3001:3001"
+      - "3001:3001"
     environment:
       PORT: 3001
       USERS_SERVICE_URL: "http://users-service:3002"
@@ -65,11 +65,11 @@ services:
         condition: service_healthy
       projects-service:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
 
   tasks-service:
     build: 
@@ -88,7 +88,7 @@ services:
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3003/health"]
       interval: 30s
-      timeout: 10s
+      timeout: 20s
       retries: 3
 
   projects-service:
@@ -108,7 +108,7 @@ services:
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3004/health"]
       interval: 30s
-      timeout: 10s
+      timeout: 20s
       retries: 3
 
   users-service:
@@ -132,7 +132,7 @@ services:
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3002/health"]
       interval: 30s
-      timeout: 10s
+      timeout: 20s
       retries: 3
 
   keycloak:

@@ -5,7 +5,7 @@ exports.setUpKeycloak = () => {
   const memoryStore = new session.MemoryStore();
   const keycloakConfig = {
     realm: process.env.KEYCLOAK_REALM,
-    authServerUrl: process.env.KEYCLOAK_PUBLIC_URL || "http://localhost:8080",
+    authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL || "http://localhost:8080",
     resource: process.env.KEYCLOAK_CLIENT_ID,
     bearerOnly: false,
     credentials: {
