@@ -2,7 +2,12 @@ FROM node:23-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY . .
+RUN mkdir -p prisma
+COPY prisma/schema.prisma ./prisma/schema.prisma
 RUN npx prisma generate
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+COPY . .
 EXPOSE 3002
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run users"]
+ENTRYPOINT [ "./entrypoint.sh" ]
+CMD ["npm","run","users"]
