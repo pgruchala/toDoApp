@@ -1,3 +1,4 @@
+#!/bin/sh
 echo "Migrating"
 npx prisma migrate dev --name init
 echo "Applying migrations"

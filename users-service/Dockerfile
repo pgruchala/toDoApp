@@ -6,8 +6,7 @@ RUN mkdir -p prisma
 COPY prisma/schema.prisma ./prisma/schema.prisma
 RUN npx prisma generate
 COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
 COPY . .
 EXPOSE 3002
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["sh", "./entrypoint.sh"]
 CMD ["npm","run","users"]
