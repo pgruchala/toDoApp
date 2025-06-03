@@ -12,7 +12,7 @@ exports.setUpKeycloak = () => {
     credentials: {
       secret: process.env.KEYCLOAK_CLIENT_SECRET,
     },
-    ssl_required: "external",
+    ssl_required: "none",
     "confidential-port": 0,
   };
   const keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);

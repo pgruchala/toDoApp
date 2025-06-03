@@ -1,7 +1,7 @@
 const { Query } = require("mongoose");
 const Task = require("../models/Task");
 const xml2js = require("xml2js");
-const { Parser } = require("json2csv").parse;
+const { Parser } = require("json2csv");
 
 const sanitizeTaskData = (task, userId) => {
   return {
@@ -68,12 +68,11 @@ exports.exportTasks = async (req, res, next) => {
       });
     }
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     let filename, content, contentType;
 
     switch (format.toLowerCase()) {
       case "json":
-        filename = `tasks-export-${timestamp}.json`;
+        filename = `tasks-export.json`;
         content = JSON.stringify(
           {
             exportDate: new Date().toISOString(),
@@ -87,7 +86,7 @@ exports.exportTasks = async (req, res, next) => {
         break;
 
       case "csv":
-        filename = `tasks-export-${timestamp}.csv`;
+        filename = `tasks-export.csv`;
         const csvFields = [
           "title",
           "description",
@@ -106,15 +105,19 @@ exports.exportTasks = async (req, res, next) => {
         break;
 
       case "xml":
-        filename = `tasks-export-${timestamp}.xml`;
+        filename = `tasks-export.xml`;
         const builder = new xml2js.Builder({
           rootName: "taskExport",
           xmldec: { version: "1.0", encoding: "UTF-8" },
         });
+        const sanitizedTasks = tasks.map((task) =>
+          sanitizeTaskData(task, userId)
+        );
+
         const xmlData = {
           exportDate: new Date().toISOString(),
           totalTasks: tasks.length,
-          tasks: { task: tasks },
+          tasks: { task: sanitizedTasks },
         };
         content = builder.buildObject(xmlData);
         contentType = "application/xml";
@@ -227,10 +230,9 @@ exports.importTasks = async (req, res, next) => {
 
         for (const taskData of validTasks) {
           try {
-              const newTask = new Task(taskData);
-              await newTask.save();
-              importedCount++;
-            
+            const newTask = new Task(taskData);
+            await newTask.save();
+            importedCount++;
           } catch (error) {
             importErrors.push({
               title: taskData.title,

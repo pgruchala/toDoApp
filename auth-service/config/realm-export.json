@@ -928,7 +928,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "RKroTMaWV59ZND0eh8Saa6zdpnEBPkRh",
       "redirectUris": [
-        "/*"
+        "http://localhost:3001/*"
       ],
       "webOrigins": [
         "/*"
