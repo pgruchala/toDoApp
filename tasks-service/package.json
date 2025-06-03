@@ -18,9 +18,13 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "joi": "^17.13.3",
+    "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.2",
     "keycloak-connect": "^26.1.1",
     "mongoose": "^8.14.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "papaparse": "^5.5.3",
+    "xml-js": "^1.6.11",
+    "xml2js": "^0.6.2"
   }
 }
