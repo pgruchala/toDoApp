@@ -6,7 +6,7 @@ const { taskValidationRules } = require("../middleware/validationMiddleware");
 
 router.use(...authenticateAndExtract());
 
-router.get("/import", taskController.importTasks);
+router.post("/import", taskController.importTasks);
 router.get("/export", taskController.exportTasks);
 
 router.post("/", taskValidationRules.create, taskController.createTask);
